@@ -13,19 +13,23 @@ class ExploreCollectionView: UIView {
     var dataSource: [Node]?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        fromNib()
+        loadViewFromNib()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        fromNib()
+        loadViewFromNib()
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
 
     func setup(with node: [Node]) {
         self.dataSource = node
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(ExploreCollectionViewCell.self, forCellWithReuseIdentifier: "ExploreCollectionViewCell")
+        collectionView.register(UINib(nibName: "ExploreCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ExploreCollectionViewCell")
     }
 }
 

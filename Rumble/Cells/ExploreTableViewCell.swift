@@ -10,6 +10,7 @@ import UIKit
 
 class ExploreTableViewCell: UITableViewCell {
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var exploreCollectionView: ExploreCollectionView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,5 +19,6 @@ class ExploreTableViewCell: UITableViewCell {
 
     func setup(with category: Category) {
         self.headingLabel.text = category.title
+        exploreCollectionView.setup(with: category.nodes)
     }
 }

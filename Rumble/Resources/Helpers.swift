@@ -11,13 +11,24 @@ import UIKit
 extension UIView {
 
     @discardableResult
-    func fromNib<T : UIView>() -> T? {
-        guard let contentView = Bundle(for: type(of: self)).loadNibNamed(String(describing: type(of: self)), owner: self, options: nil)?.first as? T else {
-            // xib not loaded, or its top view is of the wrong type
-            return nil
-        }
-        self.addConstrainedSubView(contentView)
-        return contentView
+    func loadViewFromNib() -> UIView {
+        return self.loadViewFromBundleNib(resourceBundle: Bundle.main)
+    }
+
+    @discardableResult
+    func loadViewFromBundleNib(resourceBundle bundle: Bundle? = nil, withNibName name: String? = nil) -> UIView {
+
+        let swiftClass = Swift.type(of: self)
+
+        let classNameString = NSStringFromClass(swiftClass).components(separatedBy: ".").last!
+        let nibName = name ?? classNameString
+
+        let resourceBundle: Bundle = bundle ?? Bundle(for: swiftClass)
+        let view = resourceBundle.loadNibNamed(nibName, owner: self, options: nil)?.first as! UIView
+
+        self.addConstrainedSubView(view)
+
+        return view
     }
 
     func addConstrainedSubView(_ view: UIView) {

@@ -18,6 +18,7 @@ class ExploreViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupViewModel()
         viewModel?.getCategories()
+        setupTableView()
     }
 
     func setupViewModel() {
@@ -26,12 +27,32 @@ class ExploreViewController: UIViewController {
     }
 
     func setupTableView() {
+        tableView.register(UINib(nibName: "ExploreTableViewCell", bundle: nil), forCellReuseIdentifier: "ExploreTableViewCell")
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+}
 
+extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.categories?.count ?? 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExploreTableViewCell", for: indexPath) as! ExploreTableViewCell
+        if let category = viewModel?.categories?[indexPath.row] {
+            cell.setup(with: category)
+        }
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 
 extension ExploreViewController: ExploreViewControllerDelegate {
     func showCategories() {
-        print(viewModel?.categories as Any)
+        self.tableView.reloadData()
     }
 }
