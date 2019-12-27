@@ -10,14 +10,23 @@ import UIKit
 
 class ExploreViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
     var viewModel: ExploreViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupViewModel()
+        viewModel?.getCategories()
+    }
+
+    func setupViewModel() {
         viewModel = ExploreViewModel()
         viewModel?.delegate = self
-        viewModel?.getCategories()
+    }
+
+    func setupTableView() {
+
     }
 }
 
