@@ -10,10 +10,13 @@ import AVFoundation
 import UIKit
 
 class PlayerViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var urlString: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         setupVideoPlayer()
     }
 
@@ -32,5 +35,7 @@ class PlayerViewController: UIViewController {
         playerLayer.frame = self.view.bounds
         self.view.layer.addSublayer(playerLayer)
         player.play()
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
     }
 }
