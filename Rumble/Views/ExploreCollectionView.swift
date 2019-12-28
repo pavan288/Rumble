@@ -6,6 +6,7 @@
 //  Copyright © 2019 PavanPowani. All rights reserved.
 //
 
+import AVFoundation
 import UIKit
 
 class ExploreCollectionView: UIView {
@@ -29,6 +30,7 @@ class ExploreCollectionView: UIView {
         self.dataSource = node
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.allowsMultipleSelection = false
         collectionView.register(UINib(nibName: "ExploreCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ExploreCollectionViewCell")
     }
 }
@@ -42,8 +44,14 @@ extension ExploreCollectionView: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
         if let url = dataSource?[indexPath.row].video.encodeUrl {
-            cell.setup(with: url)
+            DispatchQueue.main.async {
+                cell.setup(with: url)
+            }
         }
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 90, height: 160)
     }
 }

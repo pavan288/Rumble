@@ -30,6 +30,9 @@ class ExploreViewController: UIViewController {
         tableView.register(UINib(nibName: "ExploreTableViewCell", bundle: nil), forCellReuseIdentifier: "ExploreTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.estimatedRowHeight = 128
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.tableFooterView = UIView()
     }
 }
 
@@ -44,10 +47,6 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
             cell.setup(with: category)
         }
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
     }
 }
 

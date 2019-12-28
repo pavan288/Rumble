@@ -19,17 +19,26 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="icP-M1-FVb">
                         <rect key="frame" x="0.0" y="0.0" width="137" height="227"/>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ofH-Uv-TGB">
+                        <rect key="frame" x="0.0" y="0.0" width="137" height="227"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </activityIndicatorView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="icP-M1-FVb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5Z6-J0-raO"/>
                 <constraint firstAttribute="trailing" secondItem="icP-M1-FVb" secondAttribute="trailing" id="FoU-L8-S3d"/>
+                <constraint firstItem="ofH-Uv-TGB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="KIM-ff-NwJ"/>
+                <constraint firstItem="ofH-Uv-TGB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Q2h-cx-TZu"/>
+                <constraint firstAttribute="bottom" secondItem="ofH-Uv-TGB" secondAttribute="bottom" id="S6e-d5-uxe"/>
                 <constraint firstAttribute="bottom" secondItem="icP-M1-FVb" secondAttribute="bottom" id="T17-pN-2jt"/>
                 <constraint firstItem="icP-M1-FVb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="cyG-Vt-6DX"/>
+                <constraint firstAttribute="trailing" secondItem="ofH-Uv-TGB" secondAttribute="trailing" id="uYZ-a9-lUL"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="137" height="227"/>
             <connections>
+                <outlet property="activityIndicator" destination="ofH-Uv-TGB" id="3eH-nA-lxg"/>
                 <outlet property="thumbnailView" destination="icP-M1-FVb" id="e08-J1-Ojw"/>
             </connections>
             <point key="canvasLocation" x="200.72463768115944" y="77.34375"/>
