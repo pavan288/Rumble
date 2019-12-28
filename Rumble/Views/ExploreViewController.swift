@@ -44,13 +44,18 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExploreTableViewCell", for: indexPath) as! ExploreTableViewCell
         if let category = viewModel?.categories?[indexPath.row] {
-            cell.setup(with: category)
+            cell.setup(with: category, and: self)
         }
         return cell
     }
 }
 
-extension ExploreViewController: ExploreViewControllerDelegate {
+extension ExploreViewController: ExploreViewControllerDelegate, ExploreCollectionViewDelegate {
+    func showPlayer(with url: String) {
+        let playerVC = PlayerViewController.controller(with: url)
+        self.navigationController?.pushViewController(playerVC, animated: true)
+    }
+
     func showCategories() {
         self.tableView.reloadData()
     }

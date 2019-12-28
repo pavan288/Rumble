@@ -17,8 +17,13 @@ class ExploreTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    func setup(with category: Category) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        exploreCollectionView.collectionView.reloadData()
+    }
+
+    func setup(with category: Category, and delegate: ExploreCollectionViewDelegate) {
         self.headingLabel.text = category.title
-        exploreCollectionView.setup(with: category.nodes)
+        exploreCollectionView.setup(with: category.nodes, and: delegate)
     }
 }

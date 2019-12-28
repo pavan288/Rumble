@@ -17,22 +17,26 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.layer.cornerRadius = 4
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         thumbnailImage = nil
         self.thumbnailView.image = nil
+        self.activityIndicator.startAnimating()
     }
 
     func setup(with url: String) {
         self.thumbnailView.image = nil
         activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+        self.isUserInteractionEnabled = false
         DispatchQueue.global().async {
             self.getImageFrom(urlString: url)
             DispatchQueue.main.async {
                 self.thumbnailView.image = self.thumbnailImage
                 self.activityIndicator.isHidden = true
+                self.isUserInteractionEnabled = true
             }
         }
     }

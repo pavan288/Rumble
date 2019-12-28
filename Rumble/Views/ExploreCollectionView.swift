@@ -9,9 +9,14 @@
 import AVFoundation
 import UIKit
 
+protocol ExploreCollectionViewDelegate: class {
+    func showPlayer(with url: String)
+}
+
 class ExploreCollectionView: UIView {
     @IBOutlet weak var collectionView: UICollectionView!
     var dataSource: [Node]?
+    var delegate: ExploreCollectionViewDelegate?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         loadViewFromNib()
@@ -26,8 +31,9 @@ class ExploreCollectionView: UIView {
         super.awakeFromNib()
     }
 
-    func setup(with node: [Node]) {
+    func setup(with node: [Node], and delegate: ExploreCollectionViewDelegate) {
         self.dataSource = node
+        self.delegate = delegate
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsMultipleSelection = false
@@ -45,6 +51,7 @@ extension ExploreCollectionView: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
         if let url = dataSource?[indexPath.row].video.encodeUrl {
             DispatchQueue.main.async {
+                cell.activityIndicator.startAnimating()
                 cell.setup(with: url)
             }
         }
@@ -53,5 +60,12 @@ extension ExploreCollectionView: UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 90, height: 160)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //go to detail screen
+        if let url = dataSource?[indexPath.row].video.encodeUrl {
+            self.delegate?.showPlayer(with: url)
+        }
     }
 }
