@@ -18,6 +18,7 @@ class ExploreViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupViewModel()
         viewModel?.getCategories()
+        self.navigationItem.title = "Explore"
         setupTableView()
     }
 

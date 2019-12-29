@@ -11,26 +11,30 @@ import UIKit
 
 class PlayerViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    var urlString: String?
+    var currentVideoUrl: String?
     var category: Category?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Player"
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        setupVideoPlayer(with: self.urlString)
+        setupVideoPlayer(with: self.currentVideoUrl)
         setupSwipeGesture()
     }
 
     class func controller(with urlString: String? = nil, dataSource: Category?) -> PlayerViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller: PlayerViewController = storyBoard.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-        controller.urlString = urlString
+        controller.currentVideoUrl = urlString
         controller.category = dataSource
         return controller
     }
 
     func setupVideoPlayer(with urlString: String?) {
+        if let subLayerCount = self.view.layer.sublayers?.count, subLayerCount > 1 {
+            self.view.layer.sublayers?.last?.removeFromSuperlayer()
+        }
         guard let videoUrl = urlString,
             let videoURL = URL(string: videoUrl) else { return }
         let player = AVPlayer(url: videoURL)
@@ -51,16 +55,27 @@ class PlayerViewController: UIViewController {
     }
 
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-
+        guard var currentVideoIndex = self.category?.nodes.firstIndex(where: { $0.video.encodeUrl == self.currentVideoUrl }) else { return }
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
                 case .down:
-                    print("Swiped down")
+                    currentVideoIndex = currentVideoIndex - 1
+                    moveToVideoAt(index: currentVideoIndex)
                 case .up:
-                    print("Swiped up")
+                    currentVideoIndex = currentVideoIndex + 1
+                    moveToVideoAt(index: currentVideoIndex)
                 default:
                     break
             }
+        }
+    }
+
+    func moveToVideoAt(index currentVideoIndex: Int) {
+        if let numberOfNodes = self.category?.nodes.count,
+            currentVideoIndex < numberOfNodes, currentVideoIndex >= 0 {
+            let nextVideoNode = self.category?.nodes[currentVideoIndex]
+            self.currentVideoUrl = nextVideoNode?.video.encodeUrl
+            self.setupVideoPlayer(with: self.currentVideoUrl)
         }
     }
 }
