@@ -50,13 +50,19 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension ExploreViewController: ExploreViewControllerDelegate, ExploreCollectionViewDelegate {
-    func showPlayer(with url: String) {
-        let playerVC = PlayerViewController.controller(with: url)
-        self.navigationController?.pushViewController(playerVC, animated: true)
+extension ExploreViewController: ExploreViewControllerDelegate, ExploreTableViewCellDelegate {
+    func showPlayer(with url: String, in section: String) {
+        if let category = getCategoryFor(section: section) {
+            let playerVC = PlayerViewController.controller(with: url, dataSource: category)
+            self.navigationController?.pushViewController(playerVC, animated: true)
+        }
     }
 
     func showCategories() {
         self.tableView.reloadData()
+    }
+
+    func getCategoryFor(section: String) -> Category? {
+        return viewModel?.categories?.first(where: { $0.title == section })
     }
 }
