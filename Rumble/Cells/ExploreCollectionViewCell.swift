@@ -17,7 +17,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.layer.cornerRadius = 4
+        self.layer.cornerRadius = 8
     }
 
     override func prepareForReuse() {
